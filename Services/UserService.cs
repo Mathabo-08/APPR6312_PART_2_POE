@@ -17,6 +17,7 @@ namespace GiftOftheGivers.WebApp.Services
             _passwordHasher = passwordHasher;
         }
 
+        // RegisterUserAsync method remains the same
         public async Task<bool> RegisterUserAsync(UserRegistrationDto registrationData)
         {
             try
@@ -24,7 +25,6 @@ namespace GiftOftheGivers.WebApp.Services
                 var existingUser = await _context.Users.FirstOrDefaultAsync(u => u.Email == registrationData.Email);
                 if (existingUser != null)
                 {
-                    // User with this email already exists
                     return false;
                 }
 
@@ -35,19 +35,29 @@ namespace GiftOftheGivers.WebApp.Services
                     Email = registrationData.Email
                 };
 
-                // Hash the password before saving
                 newUser.PasswordHash = _passwordHasher.HashPassword(newUser, registrationData.Password);
-
                 await _context.Users.AddAsync(newUser);
                 await _context.SaveChangesAsync();
-
                 return true;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                // Log the exception (implementation depends on your logging strategy)
                 return false;
             }
+        }
+
+        // Login Implementation
+        public async Task<User?> ValidateUserCredentialsAsync(UserLoginDto loginData)
+        {
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == loginData.Email);
+
+            if (user == null)
+            {
+                return null;
+            }
+
+            var result = _passwordHasher.VerifyHashedPassword(user, user.PasswordHash, loginData.Password);
+            return result == PasswordVerificationResult.Success ? user : null;
         }
     }
 }

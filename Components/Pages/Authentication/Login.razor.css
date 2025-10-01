@@ -1,2 +1,3 @@
-﻿body {
+﻿.form-subtitle {
+    margin-bottom: 2.5rem; /* A bit more space for the login subtitle */
 }
