@@ -1,0 +1,26 @@
+﻿@using Microsoft.AspNetCore.Mvc
+@inherits LayoutComponentBase
+@inject NavigationManager NavigationManager
+
+@attribute [IgnoreAntiforgeryToken]
+
+<HeadContent>
+    <link rel="stylesheet" href="css/forms.css" />
+</HeadContent>
+
+<div class="auth-layout-full-container">
+    <div class="auth-navbar">
+        <div class="auth-navbar-left">
+        </div>
+        <div class="auth-navbar-right">
+            <a href="/" class="auth-nav-link">Navigate To Welcome Screen</a>
+            
+        </div>
+    </div>
+
+    <div class="auth-content-area">
+        <div class="auth-form-card-wrapper">
+            @Body
+        </div>
+    </div>
+</div>

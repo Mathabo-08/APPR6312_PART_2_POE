@@ -1,0 +1,77 @@
+﻿html, body {
+    font-family: 'Alata', sans-serif;
+}
+
+/* --- SHARED STYLES FOR ALL FEATURE FORMS --- */
+.report-card {
+    background-color: #B7B7A4;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    margin-top: 1.5rem;
+    border: 1px solid #e9ecef;
+}
+
+.card-header {
+    padding: 1.5rem;
+    background-color: #3A5A40;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.card-header-title {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #A3B18A;
+}
+
+.card-body {
+    padding: 1.5rem;
+}
+
+.form-label {
+    display: block;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    color: #2D6A4F;
+}
+
+.form-control, .form-select {
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    border: 1px solid #2D6A4F;
+}
+
+    .form-control:focus, .form-select:focus {
+        border-color: #2D6A4F;
+        box-shadow: 0 0 0 0.25rem rgba(45, 106, 79, 0.25);
+    }
+
+.form-footer {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #e9ecef;
+}
+
+.btn-primary {
+    background-color: #3A5A40;
+    border-color: #A3B18A;
+    padding: 0.75rem 2rem;
+    font-size: 1rem;
+    font-weight: 500;
+    border-radius: 8px;
+    color: #A3B18A;
+}
+
+    .btn-primary:hover {
+        background-color: #A3B18A;
+        border-color: #3A5A40;
+        color: #3A5A40;
+    }
+
+    .btn-primary:disabled {
+        background-color: #cccccc;
+        border-color: #cccccc;
+    }

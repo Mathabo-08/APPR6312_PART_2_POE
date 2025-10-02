@@ -1,0 +1,80 @@
+﻿.stat-card {
+    display: flex;
+    align-items: center;
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    border: 1px solid #dee2e6;
+    height: 100%;
+}
+
+.stat-card-icon {
+    font-size: 1.75rem;
+    min-width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 1rem;
+    color: #fff;
+}
+
+.stat-card-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.stat-card-title {
+    font-size: 1rem;
+    color: #6c757d;
+}
+
+.stat-card-value {
+    font-size: 2.25rem;
+    font-weight: 600;
+    color: #343a40;
+}
+
+/* Main stat icon colors */
+.volunteers-icon {
+    background-color: #007bff;
+}
+
+.active-events-icon {
+    background-color: #fd7e14;
+}
+
+.completed-events-icon {
+    background-color: #28a745;
+}
+
+/* Incident type icon colors */
+.flood-icon {
+    background-color: #17a2b8;
+}
+
+.wildfire-icon {
+    background-color: #e83e8c;
+}
+
+.rescue-icon {
+    background-color: #6f42c1;
+}
+
+.medical-icon {
+    background-color: #dc3545;
+}
+
+.earthquake-icon {
+    background-color: #6610f2;
+}
+
+.drought-icon {
+    background-color: #ffc107;
+}
+
+.default-icon {
+    background-color: #6c757d;
+}

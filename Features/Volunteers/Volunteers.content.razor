@@ -1,0 +1,68 @@
+﻿@page "/volunteers"
+@attribute [Authorize(Roles = "Volunteer")]
+@layout AppLayout
+@inherits VolunteersLogic
+@using GiftOfTheGivers.WebApp.Features.Volunteers
+@using GiftOftheGivers.WebApp.Components.Layout
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.Forms
+
+<PageTitle>Volunteer Registration</PageTitle>
+
+<div class="report-card">
+    <div class="card-header">
+        <h3 class="card-header-title">Join Our Volunteer Team</h3>
+    </div>
+    <div class="card-body">
+        <EditForm Model="@Profile" OnValidSubmit="HandleRegistrationAsync">
+            <DataAnnotationsValidator />
+            <p>Complete your profile below to register as a volunteer. Your contribution is invaluable.</p>
+
+            <hr class="my-4" />
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="emergencyContactName" class="form-label">Emergency Contact Name</label>
+                    <InputText id="emergencyContactName" class="form-control" @bind-Value="Profile.EmergencyContactName" />
+                    <ValidationMessage For="@(() => Profile.EmergencyContactName)" />
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="emergencyContactPhone" class="form-label">Emergency Contact Phone</label>
+                    <InputText id="emergencyContactPhone" class="form-control" @bind-Value="Profile.EmergencyContactPhone" />
+                    <ValidationMessage For="@(() => Profile.EmergencyContactPhone)" />
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Skills & Expertise</label>
+                    <div class="checkbox-group">
+                        @foreach (var skill in AllSkills)
+                        {
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="@skill" checked="@Profile.Skills.Contains(skill)" @onchange="() => ToggleSkillSelection(skill)" />
+                                <label class="form-check-label" for="@skill">@skill</label>
+                            </div>
+                        }
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Availability</label>
+                     <div class="checkbox-group">
+                        @foreach (var time in AllAvailability)
+                        {
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="@time" checked="@Profile.Availability.Contains(time)" @onchange="() => ToggleAvailabilitySelection(time)" />
+                                <label class="form-check-label" for="@time">@time</label>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-footer">
+                <button type="submit" class="btn btn-primary">Register as Volunteer</button>
+            </div>
+        </EditForm>
+    </div>
+</div>

@@ -1,0 +1,91 @@
+﻿@page "/donations"
+@attribute [Authorize(Roles = "Donor")]
+@layout AppLayout
+@inherits DonationsLogic
+@using GiftOfTheGivers.WebApp.Features.Donations
+@using GiftOftheGivers.WebApp.Components.Layout
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.Forms
+
+<PageTitle>Resource Donation</PageTitle>
+
+<div class="report-card">
+    <div class="card-header">
+        <h3 class="card-header-title">Make a Donation</h3>
+    </div>
+    <div class="card-body">
+        <EditForm Model="@Pledge" OnValidSubmit="HandlePledgeSubmissionAsync">
+            <DataAnnotationsValidator />
+
+            <p>Your generosity enables us to provide immediate relief. You can make a monetary donation, pledge physical goods, or do both in the form below. Thank you for your support.</p>
+            
+            <hr class="my-4"/>
+            
+            <h5>Monetary Donation</h5>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="amount" class="form-label">Amount (ZAR)</label>
+                    <InputNumber id="amount" class="form-control" @bind-Value="Pledge.Amount" placeholder="e.g., 500" />
+                    <ValidationMessage For="@(() => Pledge.Amount)" />
+                </div>
+            </div>
+
+            <hr class="my-4"/>
+
+            <h5>Physical Goods Pledge</h5>
+            <div class="mb-3">
+                <label class="form-label">Select the categories of items you are donating (if any):</label>
+                <div class="category-group">
+                    @foreach (var category in AllCategories)
+                    {
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="@category" checked="@Pledge.Categories.Contains(category)" @onchange="() => ToggleCategorySelection(category)" />
+                            <label class="form-check-label" for="@category">@category</label>
+                        </div>
+                    }
+                </div>
+                <ValidationMessage For="@(() => Pledge.Categories)" />
+            </div>
+
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <label for="quantity" class="form-label">Total Quantity of All Items</label>
+                    <InputNumber id="quantity" class="form-control" @bind-Value="Pledge.TotalQuantity" />
+                    <ValidationMessage For="@(() => Pledge.TotalQuantity)" />
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="description" class="form-label">Brief Description of Items (Optional)</label>
+                <InputTextArea id="description" class="form-control" @bind-Value="Pledge.Description" rows="3" placeholder="e.g., 5 boxes of children's winter jackets, 2 crates of canned soup." />
+                <ValidationMessage For="@(() => Pledge.Description)" />
+            </div>
+            
+            <h6>Donation Method for Physical Goods</h6>
+            <InputRadioGroup @bind-Value="Pledge.DonationMethod">
+                <div class="form-check">
+                    <InputRadio id="methodDropOff" Value="@("DropOff")" class="form-check-input" />
+                    <label for="methodDropOff" class="form-check-label">I will drop the items off.</label>
+                </div>
+                <div class="form-check">
+                    <InputRadio id="methodCollection" Value="@("Collection")" class="form-check-input" />
+                    <label for="methodCollection" class="form-check-label">I require collection.</label>
+                </div>
+            </InputRadioGroup>
+            <ValidationMessage For="@(() => Pledge.DonationMethod)" />
+
+            @if (Pledge.DonationMethod == "Collection")
+            {
+                <div class="row mt-3"><div class="col-md-6"><label for="collectionAddress" class="form-label">Collection Address</label><InputText id="collectionAddress" class="form-control" @bind-Value="Pledge.CollectionAddress" /><ValidationMessage For="@(() => Pledge.CollectionAddress)" /></div></div>
+            }
+            @if (Pledge.DonationMethod == "DropOff")
+            {
+                <div class="mt-3 location-info"><h6>Please drop off items at:</h6><ul class="list-group">@foreach(var l in DropOffLocations){<li class="list-group-item"><strong>@l.Name</strong><br/><small>@l.Address | Hours: @l.Hours</small></li>}</ul></div>
+            }
+            
+            <div class="form-footer">
+                <button type="submit" class="btn btn-primary">Pledge Donation</button>
+            </div>
+        </EditForm>
+    </div>
+</div>

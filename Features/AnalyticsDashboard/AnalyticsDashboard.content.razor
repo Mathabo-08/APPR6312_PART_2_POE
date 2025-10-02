@@ -1,0 +1,75 @@
+﻿@page "/analytics"
+@attribute [Authorize(Roles = "Admin, Donor")]
+
+@using GiftOfTheGivers.WebApp.Features.AnalyticsDashboard
+@using GiftOftheGivers.WebApp.Components.Layout
+@using Microsoft.AspNetCore.Authorization
+@layout AppLayout
+@inherits AnalyticsDashboardLogic
+
+<PageTitle>Analytics Dashboard</PageTitle>
+
+<div class="report-card">
+    <div class="card-header">
+        <h3 class="card-header-title">Operations Dashboard</h3>
+    </div>
+    <div class="card-body">
+        @if (IsLoading)
+        {
+            <p><em>Loading dashboard data...</em></p>
+        }
+        else if (DashboardData != null)
+        {
+            <div class="row g-3">
+                <div class="col-lg-4 col-md-6">
+                    <div class="stat-card">
+                        <div class="stat-card-icon volunteers-icon"><span class="oi oi-people"></span></div>
+                        <div class="stat-card-content">
+                            <div class="stat-card-title">Total Volunteers</div>
+                            <div class="stat-card-value">@DashboardData.TotalVolunteers</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="stat-card">
+                        <div class="stat-card-icon active-events-icon"><span class="oi oi-task"></span></div>
+                        <div class="stat-card-content">
+                            <div class="stat-card-title">Active Events</div>
+                            <div class="stat-card-value">@DashboardData.ActiveEvents</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="stat-card">
+                        <div class="stat-card-icon completed-events-icon"><span class="oi oi-check"></span></div>
+                        <div class="stat-card-content">
+                            <div class="stat-card-title">Completed Events</div>
+                            <div class="stat-card-value">@DashboardData.CompletedEvents</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <hr class="my-4"/>
+
+            <h5>Accepted Incidents by Type</h5>
+            @* ADDED: Conditional class to center items if not a full row *@
+            <div class="row g-3 @(DashboardData.IncidentsByType.Count % 4 == 2 ? "justify-content-center" : "")">
+                @foreach (var incident in DashboardData.IncidentsByType)
+                {
+                    <div class="col-lg-3 col-md-6">
+                        <div class="stat-card">
+                            <div class="stat-card-icon @GetIconBgForIncidentType(incident.Key)">
+                                <span class="@GetIconForIncidentType(incident.Key)"></span>
+                            </div>
+                            <div class="stat-card-content">
+                                <div class="stat-card-title">@incident.Key</div>
+                                <div class="stat-card-value">@incident.Value</div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+</div>

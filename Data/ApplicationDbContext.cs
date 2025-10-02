@@ -1,15 +1,23 @@
-﻿using GiftOftheGivers.WebApp.Models;
+﻿using GiftOfTheGivers.WebApp.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
 
-namespace GiftOftheGivers.WebApp.Data
+namespace GiftOfTheGivers.WebApp.Data
 {
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+            : base(options)
         {
         }
 
-        public DbSet<User> Users { get; set; }
+        // DbSets
+        public DbSet<Incident> Incidents { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+
+        }
     }
 }

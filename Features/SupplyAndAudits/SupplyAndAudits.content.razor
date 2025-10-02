@@ -1,0 +1,59 @@
+﻿@page "/supply-audits"
+@attribute [Authorize(Roles = "Admin")]
+@using GiftOfTheGivers.WebApp.Features.SupplyAndAudits
+@using GiftOftheGivers.WebApp.Components.Layout
+@using Microsoft.AspNetCore.Authorization
+@layout AppLayout
+@inherits SupplyAndAuditsLogic
+
+<PageTitle>Supply & Audits</PageTitle>
+
+<div class="report-card">
+    <div class="card-header">
+        <h3 class="card-header-title">Donation Audit Trail</h3>
+    </div>
+    <div class="card-body">
+        <p>This screen provides a log of all monetary and physical goods donations for tracking and auditing purposes.</p>
+
+        <div class="table-responsive">
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Pledge Date</th>
+                        <th>Donor</th>
+                        <th>Donation Type</th>
+                        <th>Details</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var donation in AllDonations)
+                    {
+                        <tr>
+                            <td>@donation.DonationId</td>
+                            <td>@donation.PledgeDate.ToString("yyyy-MM-dd HH:mm")</td>
+                            <td>@donation.DonorName</td>
+                            <td>
+                                @if (donation.IsMonetary) { <span class="badge bg-success">Monetary</span> }
+                                @if (donation.IsGoods) { <span class="badge bg-info">Goods</span> }
+                            </td>
+                            <td>
+                                @if (donation.IsMonetary)
+                                {
+                                    <div><strong>Amount:</strong> @donation.Amount?.ToString("C", new System.Globalization.CultureInfo("en-ZA"))</div>
+                                }
+                                @if (donation.IsGoods)
+                                {
+                                    <div><strong>Items:</strong> @(string.Join(", ", donation.Categories ?? new List<string>())) (@donation.TotalQuantity units)</div>
+                                    <div><strong>Method:</strong> @donation.DonationMethod</div>
+                                }
+                            </td>
+                            <td>@donation.Status</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

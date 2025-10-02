@@ -1,0 +1,100 @@
+﻿@page "/report-incident"
+@attribute [Authorize(Roles = "Volunteer")]
+@layout AppLayout
+@inherits DisasterReportingLogic
+@using GiftOfTheGivers.WebApp.DTOs
+@using GiftOfTheGivers.WebApp.Features.DisasterReporting
+@using GiftOftheGivers.WebApp.Components.Layout
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.Forms
+
+<PageTitle>Report Disaster Incident</PageTitle>
+
+<div class="report-card">
+    <div class="card-header">
+        <h3 class="card-header-title">Incident Details</h3>
+    </div>
+    <div class="card-body">
+        <EditForm Model="@IncidentReportModel" OnValidSubmit="HandleIncidentReportSubmissionAsync" FormName="disasterReportForm">
+            <DataAnnotationsValidator />
+
+            @if (!string.IsNullOrEmpty(submissionError))
+            {
+                <div class="alert alert-danger" role="alert">
+                    @submissionError
+                </div>
+            }
+
+            <div class="row g-3 align-items-center">
+                <div class="col-md-8">
+                    <label for="incidentType" class="form-label">Type of Incident</label>
+                    <InputSelect id="incidentType" class="form-control" @bind-Value="IncidentReportModel.IncidentType">
+                        <option value="">Select a type...</option>
+                        <option value="Flood">Flood</option>
+                        <option value="Wildfire">Wildfire</option>
+                        <option value="Earthquake">Earthquake</option>
+                        <option value="Drought">Drought</option>
+                        <option value="Medical Emergency">Medical Emergency</option>
+                        <option value="Search and Rescue">Search and Rescue</option>
+                    </InputSelect>
+                    <ValidationMessage For="@(() => IncidentReportModel.IncidentType)" />
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label">Urgency Level</label>
+                    <div class="btn-group-toggle" role="group">
+                        @foreach (var level in UrgencyLevels)
+                        {
+                            <button type="button" class="btn @(IncidentReportModel.UrgencyLevel == level ? "btn-urgency-active" : "btn-urgency")" @onclick="() => SelectUrgency(level)">
+                                @level
+                            </button>
+                        }
+                    </div>
+                     <ValidationMessage For="@(() => IncidentReportModel.UrgencyLevel)" />
+                </div>
+
+                <div class="col-md-6">
+                    <label for="incidentDate" class="form-label">Incident Date & Time <span class="required-field">(required)</span></label>
+                    <InputDate id="incidentDate" class="form-control" @bind-Value="IncidentReportModel.IncidentDate" />
+                    <ValidationMessage For="@(() => IncidentReportModel.IncidentDate)" />
+                </div>
+                <div class="col-md-6">
+                    <label for="address" class="form-label">Address</label>
+                    <InputText id="address" class="form-control" @bind-Value="IncidentReportModel.LocationAddress" placeholder="e.g., 123 Madiba Street" />
+                    <ValidationMessage For="@(() => IncidentReportModel.LocationAddress)" />
+                </div>
+
+                <div class="col-md-6">
+                    <label for="city" class="form-label">City</label>
+                    <InputText id="city" class="form-control" @bind-Value="IncidentReportModel.LocationCity" placeholder="e.g., Pretoria" />
+                    <ValidationMessage For="@(() => IncidentReportModel.LocationCity)" />
+                </div>
+                <div class="col-md-6">
+                    <label for="province" class="form-label">Province</label>
+                    <InputText id="province" class="form-control" @bind-Value="IncidentReportModel.LocationProvince" placeholder="e.g., Gauteng" />
+                    <ValidationMessage For="@(() => IncidentReportModel.LocationProvince)" />
+                </div>
+
+                <div class="col-12">
+                    <label for="description" class="form-label">Detailed Description</label>
+                    <InputTextArea id="description" class="form-control" @bind-Value="IncidentReportModel.Description" rows="5" placeholder="Describe the situation, potential number of people affected, and immediate needs." />
+                    <ValidationMessage For="@(() => IncidentReportModel.Description)" />
+                </div>
+            </div>
+
+            <div class="form-footer">
+                <button type="submit" class="btn btn-primary" disabled="@isSubmitting">
+                    @if (isSubmitting)
+                    {
+                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                        <span>Submitting...</span>
+                    }
+                    else
+                    {
+                        <span>Submit Report</span>
+                    }
+                </button>
+            </div>
+        </EditForm>
+    </div>
+</div>

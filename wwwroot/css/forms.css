@@ -1,0 +1,136 @@
+﻿.auth-form-card-wrapper .form-title {
+    font-family: 'Alata', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 1rem;
+    color: #A3B18A;
+}
+
+.auth-form-card-wrapper .form-subtitle {
+    font-family: 'Fredoka', sans-serif;
+    text-align: center;
+    margin-bottom: 1rem;
+    color: #a0a0a0;
+}
+
+.auth-form-card-wrapper .form-group {
+    margin-bottom: 0.8rem;
+}
+
+    .auth-form-card-wrapper .form-group label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+        color: #ccc;
+    }
+
+.auth-form-card-wrapper .form-control {
+    width: 100%;
+    padding: 0.55rem;
+    border: 1px solid #555;
+    border-radius: 8px;
+    background-color: #344E41;
+    color: #fff;
+    transition: border-color 0.2s;
+}
+
+    .auth-form-card-wrapper .form-control::placeholder {
+        color: #888;
+    }
+
+    .auth-form-card-wrapper .form-control:focus {
+        border-color: #3A5A40;
+        outline: none;
+        box-shadow: 0 0 0 2px rgba(58, 90, 64, 0.25);
+    }
+
+.auth-form-card-wrapper .btn-submit {
+    width: 100%;
+    padding: 0.55rem;
+    border: none;
+    border-radius: 12px;
+    background-color: #A3B18A;
+    color: #3A5A40;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin-top: 1.5rem;
+}
+
+    .auth-form-card-wrapper .btn-submit:disabled {
+        background-color: #777;
+        cursor: not-allowed;
+    }
+
+    .auth-form-card-wrapper .btn-submit:hover:not(:disabled) {
+        background-color: #bdc5a4;
+    }
+
+.auth-form-card-wrapper .snackbar {
+    padding: 1rem;
+    margin-top: 1.5rem;
+    border-radius: 4px;
+    text-align: center;
+}
+
+    .auth-form-card-wrapper .snackbar.error {
+        background-color: #721c24;
+        color: #f8d7da;
+    }
+
+    .auth-form-card-wrapper .snackbar.success {
+        background-color: #155724;
+        color: #d4edda;
+    }
+
+.auth-form-card-wrapper .validation-message {
+    color: #f8d7da;
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+}
+
+.auth-form-card-wrapper .text-center {
+    text-align: center;
+    color: #ccc;
+    margin-top: 1.5rem;
+}
+
+    .auth-form-card-wrapper .text-center a {
+        color: #FFD166;
+        text-decoration: none;
+        font-weight: 500;
+    }
+
+        .auth-form-card-wrapper .text-center a:hover {
+            text-decoration: underline;
+        }
+
+/* This code will apply only on screens shorter than 800px */
+@media (max-height: 800px) {
+    /* Reduce padding on the main content area for more space */
+    .auth-content-area {
+        padding: 1rem;
+    }
+
+    /* Reduce padding inside the form card */
+    .auth-form-card-wrapper {
+        padding: 1.5rem 2.5rem;
+    }
+
+        /* Make titles and subtitles smaller */
+        .auth-form-card-wrapper .form-title {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .auth-form-card-wrapper .form-subtitle {
+            margin-bottom: 1.5rem;
+        }
+
+        /* Reduce spacing between form groups */
+        .auth-form-card-wrapper .form-group {
+            margin-bottom: 1.25rem;
+        }
+}

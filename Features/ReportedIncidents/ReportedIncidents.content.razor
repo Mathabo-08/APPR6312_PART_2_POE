@@ -1,0 +1,77 @@
+﻿@page "/reported-incidents"
+@attribute [Authorize(Roles = "Admin")]
+@using GiftOfTheGivers.WebApp.Features.ReportedIncidents
+@using GiftOftheGivers.WebApp.Components.Layout
+@using Microsoft.AspNetCore.Authorization
+@layout AppLayout
+@inherits ReportedIncidentsLogic
+
+<PageTitle>Reported Incidents</PageTitle>
+
+<div class="report-card">
+    <div class="card-header">
+        <h3 class="card-header-title">Incident Triage</h3>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-4">
+                <h5>Incoming Reports</h5>
+                <div class="list-group incident-list">
+                    @foreach (var incident in AllIncidents)
+                    {
+                        <button type="button" class="list-group-item list-group-item-action @(SelectedIncident?.Id == incident.Id ? "active" : "")" @onclick="() => SelectIncident(incident)">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-1">@incident.IncidentType</h6>
+                                <small class="text-muted">@incident.IncidentDate.ToString("dd MMM @ HH:mm")</small>
+                            </div>
+                            <p class="mb-1">@incident.LocationCity, @incident.LocationProvince</p>
+                            <small>Status: @incident.Status</small>
+                        </button>
+                    }
+                </div>
+            </div>
+
+            <div class="col-md-8">
+                @if (SelectedIncident != null)
+                {
+                    <div class="details-view">
+                        <h5>Details for Incident #@SelectedIncident.Id</h5>
+                        <hr/>
+                        <div class="row">
+                            <div class="col-sm-6"><strong>Type:</strong> @SelectedIncident.IncidentType</div>
+                            <div class="col-sm-6"><strong>Urgency:</strong> <span class="urgency-tag urgency-@SelectedIncident.UrgencyLevel.ToLower()">@SelectedIncident.UrgencyLevel</span></div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-sm-12"><strong>Date:</strong> @SelectedIncident.IncidentDate.ToString("f")</div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-sm-12"><strong>Location:</strong> @SelectedIncident.LocationAddress, @SelectedIncident.LocationCity, @SelectedIncident.LocationProvince</div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-sm-12">
+                                <strong>Description:</strong>
+                                <p class="description-box">@SelectedIncident.Description</p>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-sm-12"><strong>Reported By:</strong> @SelectedIncident.ReportedBy</div>
+                        </div>
+
+                        <hr/>
+                        <div class="action-buttons">
+                            <button class="btn btn-success" @onclick="AttendIncident" disabled="@(SelectedIncident.Status != "Pending")">Attend Incident</button>
+                            <button class="btn btn-danger" @onclick="DeclineIncident" disabled="@(SelectedIncident.Status != "Pending")">Decline Incident</button>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="details-placeholder">
+                        <span class="oi oi-list-rich"></span>
+                        <p>Select an incident from the list to view its details.</p>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

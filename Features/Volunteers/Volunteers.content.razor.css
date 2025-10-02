@@ -1,0 +1,9 @@
+﻿/* Specific styles for the Volunteer form */
+.checkbox-group {
+    padding: 1rem;
+    border: 1px solid #2D6A4F;
+    border-radius: 8px;
+    background-color: #ffffff;
+    height: 200px;
+    overflow-y: auto;
+}

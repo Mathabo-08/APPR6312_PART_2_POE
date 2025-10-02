@@ -1,4 +1,5 @@
 ﻿@page "/"
+@using GiftOftheGivers.WebApp.Components.Layout
 @rendermode InteractiveServer
 @layout EmptyLayout
 
@@ -20,11 +21,11 @@
 
     private void NavigateToLogin()
     {
-        NavigationManager.NavigateTo("/login");
+        NavigationManager.NavigateTo("/Account/Login");
     }
 
     private void NavigateToRegister()
     {
-        NavigationManager.NavigateTo("/register");
+        NavigationManager.NavigateTo("/Account/Register");
     }
 }

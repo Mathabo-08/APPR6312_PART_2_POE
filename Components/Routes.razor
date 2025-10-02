@@ -1,6 +1,37 @@
-﻿<Router AppAssembly="typeof(Program).Assembly">
-    <Found Context="routeData">
-        <RouteView RouteData="routeData" DefaultLayout="typeof(Layout.MainLayout)" />
-        <FocusOnNavigate RouteData="routeData" Selector="h1" />
-    </Found>
-</Router>
+﻿@using GiftOftheGivers.WebApp.Components.Account.Shared
+@using Microsoft.AspNetCore.Components.Authorization
+@using Microsoft.AspNetCore.Components.Routing
+@using GiftOftheGivers.WebApp.Components.Layout
+@using GiftOftheGivers.WebApp.Components.Account.Shared
+
+<CascadingAuthenticationState>
+    <Router AppAssembly="@typeof(Program).Assembly">
+        <Found Context="routeData">
+            <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(AppLayout)">
+                <NotAuthorized>
+                    <RedirectToLogin />
+                </NotAuthorized>
+                <Authorizing>
+                    <div class="container mt-5 text-center">
+                        [cite_start]<div class="spinner-border" role="status"> [cite: 18]
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                        <p class="mt-2">Loading...</p>
+                    </div>
+                </Authorizing>
+            </AuthorizeRouteView>
+            <FocusOnNavigate RouteData="@routeData" Selector="h1" />
+        </Found>
+        <NotFound>
+            <LayoutView Layout="@typeof(AppLayout)">
+                <div class="container mt-5">
+                    <div class="alert alert-danger">
+                        [cite_start]<h4>Page Not Found</h4> [cite: 20]
+                        [cite_start]<p>Sorry, we couldn't find the page you're looking for.</p> [cite: 20]
+                        [cite_start]<a href="/" class="btn btn-primary">Return Home</a> [cite: 21]
+                    </div>
+                </div>
+            </LayoutView>
+        </NotFound>
+    </Router>
+</CascadingAuthenticationState>

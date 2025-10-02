@@ -1,0 +1,140 @@
+﻿@page "/Account/Register" 
+@rendermode InteractiveServer
+@layout AuthLayout
+
+@attribute [IgnoreAntiforgeryToken]
+
+@using System.ComponentModel.DataAnnotations
+@using GiftOfTheGivers.WebApp.Models
+@using GiftOftheGivers.WebApp.Services.DTOs
+@using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.Mvc
+
+@inject UserManager<ApplicationUser> UserManager
+@inject NavigationManager NavigationManager
+
+<h3 class="form-title">Create Account</h3>
+<p class="form-subtitle">Join us and make a difference</p>
+
+<div class="alert alert-info" role="alert">
+    <h5 class="alert-heading">Administrator Access (Prototype)</h5>
+    <p>To login as an Administrator, please navigate to the Login screen and enter the following credentials:</p>
+    <hr>
+    <p class="mb-0">
+        <strong>Email Address:</strong> admin@giftofthegivers.org<br>
+        <strong>Password:</strong> AdminPass123!
+    </p>
+    <small class="d-block mt-2">Note: In production, the administrator will be granted access via the backend.</small>
+</div>
+
+<EditForm Model="@_model" OnValidSubmit="HandleRegister" FormName="registerForm" Enhance>
+    <DataAnnotationsValidator />
+    <div class="form-group">
+        <label for="fullName">Full Name</label>
+        <InputText id="fullName" class="form-control" @bind-Value="_model.FullName" Placeholder="Enter your full name" />
+        <ValidationMessage For="@(() => _model.FullName)" />
+    </div>
+    <div class="form-group">
+        <label for="email">Email</label>
+        <InputText id="email" type="email" class="form-control" @bind-Value="_model.Email" Placeholder="Enter your email" />
+        <ValidationMessage For="@(() => _model.Email)" />
+    </div>
+    <div class="form-group">
+        <label for="password">Password</label>
+        <InputText id="password" type="password" class="form-control" @bind-Value="_model.Password" Placeholder="Enter your password" />
+        <ValidationMessage For="@(() => _model.Password)" />
+    </div>
+    <div class="form-group">
+        <label for="role">I am a</label>
+        <InputSelect @bind-Value="_model.Role" class="form-control">
+            <option value="">Select a role</option>
+            <option value="Volunteer">Volunteer</option>
+            <option value="Donor">Donor</option>
+        </InputSelect>
+        <ValidationMessage For="@(() => _model.Role)" />
+    </div>
+    <button type="submit" class="btn-submit" disabled="@_isProcessing">
+        @if (_isProcessing)
+        {
+            <span class="spinner-border spinner-border-sm"></span>
+            <span>Creating Account...</span>
+        }
+        else
+        {
+            <span>Create Account</span>
+        }
+    </button>
+</EditForm>
+
+@if (!string.IsNullOrEmpty(_successMessage))
+{
+    <div class="alert alert-success mt-3">
+        @_successMessage
+        <br />
+        <a href="/Account/Login" class="alert-link">Click here to login</a> 
+    </div>
+}
+
+@if (!string.IsNullOrEmpty(_errorMessage))
+{
+    <div class="alert alert-danger mt-3" role="alert">
+        @((MarkupString)_errorMessage)
+    </div>
+}
+
+<p class="text-center">Already have an account? <a href="/Account/Login">Login here</a></p>
+
+@code {
+    private UserRegistrationDto _model = new();
+    private bool _isProcessing = false;
+    private string? _errorMessage;
+    private string? _successMessage;
+
+    private async Task HandleRegister()
+    {
+        _isProcessing = true;
+        _errorMessage = null;
+        _successMessage = null;
+        await InvokeAsync(StateHasChanged);
+
+        try
+        {
+            var newUser = new ApplicationUser
+            {
+                UserName = _model.Email,
+                Email = _model.Email,
+                FullName = _model.FullName,
+                EmailConfirmed = true
+            };
+
+            var result = await UserManager.CreateAsync(newUser, _model.Password);
+
+            if (result.Succeeded)
+            {
+                if (!string.IsNullOrWhiteSpace(_model.Role))
+                {
+                    await UserManager.AddToRoleAsync(newUser, _model.Role);
+                }
+
+                _errorMessage = null;
+                _successMessage = "Account created successfully! You can now login.";
+                _model = new UserRegistrationDto();
+            }
+            else
+            {
+                var errorList = string.Join("<br/>", result.Errors.Select(e => e.Description));
+                _errorMessage = $"Registration failed:<br/>{errorList}";
+            }
+        }
+        catch (Exception)
+        {
+            _successMessage = null;
+            _errorMessage = "An unexpected error occurred during registration. Please try again.";
+        }
+        finally
+        {
+            _isProcessing = false;
+            await InvokeAsync(StateHasChanged);
+        }
+    }
+}

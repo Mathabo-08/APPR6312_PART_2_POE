@@ -1,0 +1,67 @@
+﻿.auth-layout-full-container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color: #3A5A40;
+    background-image: url(/images/regi.jpg);
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    color: #A3B18A;
+}
+
+.auth-navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 3rem;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    color: #A3B18A;
+    font-size: 22px;
+}
+
+.auth-navbar-left {
+    font-family: 'Alata', sans-serif;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #fff;
+}
+
+.auth-navbar-right {
+    display: flex;
+    gap: 2rem;
+}
+
+.auth-nav-link {
+    font-family: 'Fredoka', sans-serif;
+    color: #fff;
+    text-decoration: none;
+    padding: 0.5rem 0.5rem;
+    border-radius: 4px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    font-weight: 500;
+}
+
+    .auth-nav-link:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+        color: #fff;
+    }
+
+.auth-content-area {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+}
+
+.auth-form-card-wrapper {
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 20px;
+    padding: 2.5rem 3.5rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    width: 100%;
+    max-width: 450px;
+}
